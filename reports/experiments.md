@@ -82,3 +82,26 @@ LightGBM beat Ridge floor on defaults, picked for tuning.
 Best params: low learning_rate (0.024) + shallow trees (depth=3) + many trees (554).
 
 **New floor: 0.1190 RMSE (LightGBM + Optuna).**
+
+
+## Final Submission (05_final.ipynb)
+
+Trained LightGBM with Optuna best params on full train set (1458 rows)
+Predicted on test set, submitted to Kaggle.
+
+| Source | RMSE / RMSLE |
+|--------|--------------|
+| CV (local, 5-fold) | 0.1190 |
+| Kaggle Public | **0.12753** |
+
+Kaggle score is slightly worse than cross-validation, but generally model is predicting well
+
+**Position: 1409 / 5119 teams (top 27.5%)** on Kaggle public leaderboard.
+
+### SHAP analysis
+Top 3 features by mean absolute SHAP:
+1. TotalSF (0.110) - feature engineering
+2. OverallQual (0.096)
+3. YearRemodAdd (0.032)
+
+All patterns logical (bigger/better quality houses = higher price), confirming model learned relationships that make sense.
