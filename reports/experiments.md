@@ -55,3 +55,30 @@ Tested 6 engineered features, then iterated to minimal subset based on RF featur
 TotalSF (sum of 1stFlrSF + 2ndFlrSF + TotalBsmtSF) does all the work. 
 Other features added noise without any gains.
 **New floor: 0.1289 RMSE (Ridge with TotalSF).**
+
+## Modeling (04_modeling.ipynb)
+
+Compared 4 tree-based models + Ridge baseline, then tuned the winner with Optuna.
+
+### Model comparison (defaults, 5-fold CV)
+
+| Model         | RMSE   | Std    |
+|---------------|--------|--------|
+| Decision Tree | 0.2088 | 0.0111 |
+| Random Forest | 0.1372 | 0.0078 |
+| XGBoost       | 0.1369 | 0.0075 |
+| **LightGBM**  | **0.1282** | **0.0055** |
+| Ridge         | 0.1289 | 0.0129 |
+
+LightGBM beat Ridge floor on defaults, picked for tuning.
+
+### Optuna tuning (50 trials, LightGBM)
+
+| Stage | RMSE | Diff |
+|-------|------|------|
+| LightGBM default | 0.1282 | - |
+| LightGBM + Optuna | **0.1190** | -0.0092 |
+
+Best params: low learning_rate (0.024) + shallow trees (depth=3) + many trees (554).
+
+**New floor: 0.1190 RMSE (LightGBM + Optuna).**
